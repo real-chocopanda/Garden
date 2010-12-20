@@ -16,7 +16,7 @@ echo $this->Form->Errors();
          <?php echo T('You are about to flag this '.$this->Data['Plugin.Flagging.Data']['Context'].' for moderator review.'); ?>
          <?php echo T('If you\'re sure you want to do this, please enter a brief reason/explanation below, then press \'Flag this!\'.'); ?>
       </div>
-      <?php echo T('Link to content:').' '.Anchor("{$UcContext} #{$ElementID}", $URL).' - '.T('by').' '.$this->Data['Plugin.Flagging.Data']['ElementAuthor']; ?>
+      <?php echo sprintf(T('Link to content: %s - by %s'), Anchor("{$UcContext} #{$ElementID}", $URL), $this->Data['Plugin.Flagging.Data']['ElementAuthor']); ?>
    </li>
    <li>
       <?php
