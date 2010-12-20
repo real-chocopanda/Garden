@@ -13,14 +13,14 @@ echo $this->Form->Errors();
 <ul>
    <li>
       <div class="Warning">
-         You are about to flag this <?php echo $this->Data['Plugin.Flagging.Data']['Context']; ?> for moderator review. If you're sure you want to do this,
-         please enter a brief reason/explanation below, then press 'Flag this!'.
+         <?php echo T('You are about to flag this '.$this->Data['Plugin.Flagging.Data']['Context'].' for moderator review.'); ?>
+         <?php echo T('If you\'re sure you want to do this, please enter a brief reason/explanation below, then press \'Flag this!\'.'); ?>
       </div>
-      Link to content: <?php echo Anchor("{$UcContext} #{$ElementID}", $URL); ?> - by <?php echo $this->Data['Plugin.Flagging.Data']['ElementAuthor']; ?>
+      <?php echo T('Link to content:').' '.Anchor("{$UcContext} #{$ElementID}", $URL).' - '.T('by').' '.$this->Data['Plugin.Flagging.Data']['ElementAuthor']; ?>
    </li>
    <li>
       <?php
-         echo $this->Form->Label('Reason', 'Plugin.Flagging.Reason');
+         echo $this->Form->Label(T('Reason'), 'Plugin.Flagging.Reason');
          echo $this->Form->TextBox('Plugin.Flagging.Reason', array('MultiLine' => TRUE));
       ?>
    </li>
@@ -28,4 +28,4 @@ echo $this->Form->Errors();
       $this->FireEvent('FlagContentAfter');
    ?>
 </ul>
-<?php echo $this->Form->Close('Flag this!');
+<?php echo $this->Form->Close(T('Flag this!'));
