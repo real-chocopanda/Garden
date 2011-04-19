@@ -1070,7 +1070,7 @@ EOT;
       }
       $Mixed = strip_tags(html_entity_decode($Mixed, ENT_COMPAT, 'UTF-8'));
       $Mixed = strtr($Mixed, self::$_UrlTranslations);
-      $Mixed = preg_replace('/[^a-z0-9\s-]/', '', $Mixed); // get rid of punctuation and symbols
+      $Mixed = preg_replace('/[^A-Za-z0-9\s-]/', ' ', $Mixed); // get rid of punctuation and symbols
       $Mixed = trim(preg_replace('/[\s-]+/', ' ', $Mixed)); // get rid of spaces
       $Mixed = preg_replace('/\s/', '-', $Mixed); // limit to 1 hyphen at a time
       $Mixed = urlencode($Mixed);
