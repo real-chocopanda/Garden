@@ -78,7 +78,7 @@ class ImportController extends DashboardController {
          }
          $Imp->SaveState();
          $this->Form->SetValidationResults($Imp->Validation->Results());
-         
+
          $this->SetData('Stats', GetValue('Stats', $Imp->Data, array()));
          $this->SetData('CurrentStep', $Imp->CurrentStep);
          $this->SetData('CurrentStepMessage', GetValue('CurrentStepMessage', $Imp->Data, ''));
@@ -162,7 +162,7 @@ class ImportController extends DashboardController {
             }
 
             if($Validation->Validate($this->Form->FormValues())) {
-               $this->Form->SetFormValue('Overwrite', 'overwrite');
+               //$this->Form->SetFormValue('Overwrite', 'overwrite');
                $Imp->FromPost($this->Form->FormValues());
                $this->View = 'Info';
             } else {

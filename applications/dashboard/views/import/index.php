@@ -46,7 +46,7 @@ echo $this->Form->Errors();
             '</div>';
       }
       ?>
-		<?php 
+		<?php
          $OriginalFilename = GetValue('OriginalFilename', $this->Data);
 
          echo '<div>';
@@ -63,18 +63,18 @@ echo $this->Form->Errors();
 	</li>
 	<li>
 		<?php
-		//echo $this->Form->Radio('Overwrite', T('Garden.Import.Overwrite', 'Overwrite this forum.'), array('value' => 'overwrite', 'default' => 'overwrite'));
+		echo $this->Form->Radio('Overwrite', T('Garden.Import.Overwrite', 'Overwrite this forum.'), array('value' => 'overwrite', 'default' => 'overwrite'));
 		echo Wrap(T('Garden.Import.InputInstructions', 'Enter the email and password of the admin user from the data being imported.'), 'div');
-		
+
 		echo $this->Form->Label('Email', 'Email'),
 			$this->Form->TextBox('Email');
-		
+
 		echo $this->Form->Label('Password', 'Password'),
 			$this->Form->Input('Password', 'password');
 
       echo $this->Form->CheckBox('UseCurrentPassword', 'Use My Current Password');
 		?>
-	</li><?php /*
+	</li>
 	<li>
 		<?php
 		echo $this->Form->Radio('Overwrite', T('Garden.Import.Merge', 'Merge with this forum.'), array('value' => 'merge'));
@@ -82,9 +82,9 @@ echo $this->Form->Errors();
 		T('Garden.Import.Merge.Description', 'This will merge all of the user and discussion data from the import into this forum.
 <b>Warning: If you merge the same data twice you will get duplicate discussions.</b>'),
 		'</div>';
-		
+
 		?>
-	</li> */?>
+	</li>
 </ul>
 <h3><?php echo T('Advanced Options'); ?></h3>
 <ul>
