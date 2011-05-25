@@ -75,6 +75,7 @@ $Configuration['Garden']['Email']['SupportAddress']             = '';
 $Configuration['Garden']['UpdateCheckUrl']                      = 'http://vanillaforums.org/addons/update';
 $Configuration['Garden']['AddonUrl']                            = 'http://vanillaforums.org/addons';
 $Configuration['Garden']['CanProcessImages']                    = FALSE;
+$Configuration['Garden']['AllowImagesUpload']                    = TRUE;
 $Configuration['Garden']['Installed']                           = FALSE; // Has Garden been installed yet?
 $Configuration['Garden']['Forms']['HoneypotName']               = 'hpt';
 $Configuration['Garden']['Upload']['MaxFileSize']               = '50M';

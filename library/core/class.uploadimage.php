@@ -14,6 +14,10 @@ Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
 class Gdn_UploadImage extends Gdn_Upload {
 
    public static function CanUploadImages() {
+      if (!C('Garden.AllowImagesUpload')) {
+         return FALSE;
+      }
+      
       // Check that we have the necessary tools to allow image uploading
       
       // Is the Uploads directory available and correctly permissioned?
