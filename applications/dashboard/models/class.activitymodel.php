@@ -15,7 +15,7 @@ class ActivityModel extends Gdn_Model {
    public function __construct() {
       parent::__construct('Activity');
    }
-   
+
    public function ActivityQuery() {
       $this->SQL
          ->Select('a.*')
@@ -32,7 +32,7 @@ class ActivityModel extends Gdn_Model {
          ->Join('User au', 'a.ActivityUserID = au.UserID')
          ->Join('User ru', 'a.RegardingUserID = ru.UserID', 'left');
    }
-   
+
    public function Delete($ActivityID) {
       // Get the activity first
       $Activity = $this->GetID($ActivityID);
@@ -41,14 +41,14 @@ class ActivityModel extends Gdn_Model {
          $Users[] = $Activity->ActivityUserID;
          if (is_numeric($Activity->RegardingUserID) && $Activity->RegardingUserID > 0)
             $Users[] = $Activity->RegardingUserID;
-            
+
          // Update the user's dateupdated field so that profile pages will not
          // be cached and will reflect this deletion.
          $this->SQL->Update('User')
             ->Set('DateUpdated', Gdn_Format::ToDateTime())
             ->WhereIn('UserID', $Users)
             ->Put();
-         
+
          // Delete comments on the activity item
          parent::Delete(array('CommentActivityID' => $ActivityID), FALSE, TRUE);
          // Delete the activity item
@@ -63,7 +63,7 @@ class ActivityModel extends Gdn_Model {
          ->OrderBy('a.DateInserted', 'desc')
          ->Get();
    }
-   
+
    public function Get($UserID = '', $Offset = '0', $Limit = '50') {
       $Offset = is_numeric($Offset) ? $Offset : 0;
       if ($Offset < 0)
@@ -83,7 +83,7 @@ class ActivityModel extends Gdn_Model {
             //->EndWhereGroup();
             // mosullivan 2011-03-08: "Or" killing query speed
       }
-      
+
       $Session = Gdn::Session();
       if (!$Session->IsValid() || $Session->UserID != $UserID)
          $this->SQL->Where('t.Public', '1');
@@ -94,14 +94,14 @@ class ActivityModel extends Gdn_Model {
          ->Limit($Limit, $Offset)
          ->Get();
    }
-   
+
    public function GetCount($UserID = '') {
       $this->SQL
          ->Select('a.ActivityID', 'count', 'ActivityCount')
          ->From('Activity a')
          ->Join('ActivityType t', 'a.ActivityTypeID = t.ActivityTypeID')
          ->Where('a.CommentActivityID is null');
-      
+
       if ($UserID != '') {
          $this->SQL
             ->BeginWhereGroup()
@@ -109,7 +109,7 @@ class ActivityModel extends Gdn_Model {
             ->OrWhere('a.RegardingUserID', $UserID)
             ->EndWhereGroup();
       }
-      
+
       $Session = Gdn::Session();
       if (!$Session->IsValid() || $Session->UserID != $UserID)
          $this->SQL->Where('t.Public', '1');
@@ -124,7 +124,7 @@ class ActivityModel extends Gdn_Model {
    public function GetForRole($RoleID = '', $Offset = '0', $Limit = '50') {
       if (!is_array($RoleID))
          $RoleID = array($RoleID);
-      
+
       $Offset = is_numeric($Offset) ? $Offset : 0;
       if ($Offset < 0)
          $Offset = 0;
@@ -132,7 +132,7 @@ class ActivityModel extends Gdn_Model {
       $Limit = is_numeric($Limit) ? $Limit : 0;
       if ($Limit < 0)
          $Limit = 0;
-      
+
       $this->ActivityQuery();
       return $this->SQL
          ->Join('UserRole ur', 'a.ActivityUserID = ur.UserID')
@@ -143,11 +143,11 @@ class ActivityModel extends Gdn_Model {
          ->Limit($Limit, $Offset)
          ->Get();
    }
-   
+
    public function GetCountForRole($RoleID = '') {
       if (!is_array($RoleID))
          $RoleID = array($RoleID);
-      
+
       return $this->SQL
          ->Select('a.ActivityID', 'count', 'ActivityCount')
          ->From('Activity a')
@@ -168,7 +168,7 @@ class ActivityModel extends Gdn_Model {
          ->Get()
          ->FirstRow();
    }
-   
+
    public function GetNotifications($UserID, $Offset = '0', $Limit = '50') {
       $this->ActivityQuery();
       $this->FireEvent('BeforeGetNotifications');
@@ -179,13 +179,13 @@ class ActivityModel extends Gdn_Model {
          ->OrderBy('a.ActivityID', 'desc')
          ->Get();
    }
-   
+
    public function GetNotificationsSince($UserID, $LastActivityID, $FilterToActivityTypeIDs = '', $Limit = '5') {
       $this->ActivityQuery();
       $this->FireEvent('BeforeGetNotificationsSince');
 		if (is_array($FilterToActivityTypeIDs))
 			$this->SQL->WhereIn('a.ActivityTypeID', $FilterToActivityTypeIDs);
-		
+
       $Result = $this->SQL
          ->Where('RegardingUserID', $UserID)
          ->Where('a.ActivityID >', $LastActivityID)
@@ -196,13 +196,13 @@ class ActivityModel extends Gdn_Model {
 
       return $Result;
    }
-   
+
    public function GetCountNotifications($UserID) {
       $this->SQL
          ->Select('a.ActivityID', 'count', 'ActivityCount')
          ->From('Activity a')
          ->Join('ActivityType t', 'a.ActivityTypeID = t.ActivityTypeID');
-         
+
       $this->FireEvent('BeforeGetNotificationsCount');
       return $this->SQL
          ->Where('RegardingUserID', $UserID)
@@ -221,10 +221,10 @@ class ActivityModel extends Gdn_Model {
          ->OrderBy('a.DateInserted', 'asc')
          ->Get();
    }
-   
+
    public function Add($ActivityUserID, $ActivityType, $Story = '', $RegardingUserID = '', $CommentActivityID = '', $Route = '', $SendEmail = '') {
       static $ActivityTypes = array();
-   
+
       // Make sure the user is authenticated.
 
       // Get the ActivityTypeID & see if this is a notification
@@ -240,7 +240,7 @@ class ActivityModel extends Gdn_Model {
 
          $ActivityTypes[$ActivityType] = $ActivityTypeRow;
       }
-         
+
       if ($ActivityTypeRow !== FALSE) {
          $ActivityTypeID = $ActivityTypeRow->ActivityTypeID;
          $Notify = $ActivityTypeRow->Notify == '1';
@@ -264,7 +264,7 @@ class ActivityModel extends Gdn_Model {
       } else {
          $AddActivity = TRUE;
       }
-         
+
       // If this is a notification, increment the regardinguserid's count
       if ($AddActivity && $Notify) {
          $this->SQL
@@ -273,19 +273,19 @@ class ActivityModel extends Gdn_Model {
             ->Where('UserID', $RegardingUserID)
             ->Put();
       }
-      
+
       $Fields = array('ActivityTypeID' => $ActivityTypeID,
          'ActivityUserID' => $ActivityUserID
       );
       if ($Story != '')
          $Fields['Story'] = $Story;
-         
+
       if ($Route != '')
          $Fields['Route'] = $Route;
-         
+
       if (is_numeric($RegardingUserID))
          $Fields['RegardingUserID'] = $RegardingUserID;
-         
+
       if (is_numeric($CommentActivityID))
          $Fields['CommentActivityID'] = $CommentActivityID;
 
@@ -308,15 +308,19 @@ class ActivityModel extends Gdn_Model {
          else
             $this->SendNotification($ActivityID, $Story);
       }
-      
+
       return $ActivityID;
    }
-   
+
    public function SendNotification($ActivityID, $Story = '') {
+      if (!C('Dashboard.EnableEmailNotifications')) {
+         return;
+      }
+
       $Activity = $this->GetID($ActivityID);
       if (!is_object($Activity))
          return;
-      
+
       $Story = Gdn_Format::Text($Story == '' ? $Activity->Story : $Story, FALSE);
       // If this is a comment on another activity, fudge the activity a bit so that everything appears properly.
       if (is_null($Activity->RegardingUserID) && $Activity->CommentActivityID > 0) {
@@ -343,7 +347,7 @@ class ActivityModel extends Gdn_Model {
                   $Story
                )
             );
-            
+
             try {
                $Email->Send();
             } catch (Exception $ex) {
@@ -352,7 +356,7 @@ class ActivityModel extends Gdn_Model {
          }
       }
    }
-   
+
    /**
     * The Notification Queue is used to stack up notifications to users. Ensures
     * that they only receive one notification about a single topic. For example:
@@ -385,15 +389,19 @@ class ActivityModel extends Gdn_Model {
       unset($this->_NotificationQueue);
       $this->_NotificationQueue = array();
    }
-   
+
    /**
     * Queue a notification for sending.
     */
    public function QueueNotification($ActivityID, $Story = '', $Position = 'last') {
+      if (!C('Dashboard.EnableEmailNotifications')) {
+         return;
+      }
+
       $Activity = $this->GetID($ActivityID);
       if (!is_object($Activity))
          return;
-      
+
       $Story = Gdn_Format::Text($Story == '' ? $Activity->Story : $Story, FALSE);
       // If this is a comment on another activity, fudge the activity a bit so that everything appears properly.
       if (is_null($Activity->RegardingUserID) && $Activity->CommentActivityID > 0) {
