@@ -39,6 +39,11 @@ echo $this->Form->Errors();
    </li>
    <li>
       <?php
+         $this->renderAsset('CustomContent');
+      ?>
+   </li>
+   <li>
+      <?php
 		if(count($this->PermissionData) > 0) {
          if (!$this->Category->AllowDiscussions) {
             echo T('This is a parent category that does not allow discussions.');
