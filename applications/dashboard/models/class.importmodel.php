@@ -24,7 +24,7 @@ class ImportModel extends Gdn_Model {
 	public $CurrentStep = 0;
 
 	public $Data = array();
-   
+
    public $ErrorType = '';
 
 	public $ImportPath = '';
@@ -209,7 +209,7 @@ class ImportModel extends Gdn_Model {
          $this->ErrorType = 'Credentials';
 		}
 		return $Result;
-      
+
 	}
 
    public function CustomFinalization() {
@@ -291,7 +291,7 @@ class ImportModel extends Gdn_Model {
                $St->Set(TRUE, TRUE);
             else
                $St->Reset();
-            
+
             if($DestModified)
                $DestStructure->Set();
          } catch(Exception $Ex) {
@@ -309,7 +309,7 @@ class ImportModel extends Gdn_Model {
 		foreach($this->Tables() as $Table => $TableInfo) {
          if(GetValue('Skip', $TableInfo))
             continue;
-         
+
 			$St->Table(self::TABLE_PREFIX.$Table);
          $Columns = $TableInfo['Columns'];
 
@@ -381,7 +381,7 @@ class ImportModel extends Gdn_Model {
             continue;
 
          $this->Data['CurrentStepMessage'] = $Table;
-         
+
 			if($Table == 'Permission')
             $this->SQL->Delete($Table, array('RoleID <>' => 0));
 			else
@@ -422,7 +422,7 @@ class ImportModel extends Gdn_Model {
 
    public function GetCountSQL(
       $Aggregate, // count, max, min, etc.
-      $ParentTable, $ChildTable, 
+      $ParentTable, $ChildTable,
       $ParentColumnName = '', $ChildColumnName = '',
       $ParentJoinColumn = '', $ChildJoinColumn = '') {
 
@@ -637,7 +637,7 @@ class ImportModel extends Gdn_Model {
                      $RowCount = $this->_InsertTable($TableName);
                      break;
                }
-               
+
             } else {
                switch($TableName) {
                   case 'Permission':
@@ -714,7 +714,7 @@ class ImportModel extends Gdn_Model {
       if (!Gdn::Structure()->TableExists($TableName))
          return 0;
 
-		$TableInfo =& $this->Tables($TableName);
+		$TableInfo = $this->Tables($TableName);
 		$Columns = $TableInfo['Columns'];
 
 		// Build the column insert list.
@@ -816,7 +816,7 @@ class ImportModel extends Gdn_Model {
          foreach ($ColumnSets as $ColumnSet) {
             $Set = array();
             $Set['RoleID'] = $Row['RoleID'];
-            
+
             foreach ($ColumnSet as $ColumnName => $Default) {
                if (isset($Row[$ColumnName]))
                   $Value = $Row[$ColumnName];
@@ -1212,7 +1212,7 @@ class ImportModel extends Gdn_Model {
       $this->Data['Tables'] = $Tables;
       return TRUE;
    }
-	
+
 	public function ProcessImportFile() {
       // This one step can take a while so give it more time.
       set_time_limit(60 * 5);
@@ -1388,8 +1388,8 @@ class ImportModel extends Gdn_Model {
          $Queries[$Index] = rtrim($Sql, ';').';';
       }
       $Queries = "\n\n/* $CurrentStep */\n\n".implode("\n\n", $Queries);
-      
-      
+
+
       file_put_contents(PATH_LOCAL_UPLOADS.'/'.$SQLPath, $Queries, FILE_APPEND | LOCK_EX);
    }
 
@@ -1437,7 +1437,7 @@ class ImportModel extends Gdn_Model {
    public function UpdateCounts() {
       // This option could take a while so set the timeout.
       set_time_limit(60*5);
-      
+
       // Define the necessary SQL.
       $Sqls = array();
 
@@ -1520,7 +1520,7 @@ class ImportModel extends Gdn_Model {
             if(!$this->ImportExists('UserConversation', 'LastMessageID')) {
                if($this->ImportExists('UserConversation', 'DateLastViewed')) {
                   // Get the value from the DateLastViewed.
-                  $Sqls['UserConversation.LastMessageID'] = 
+                  $Sqls['UserConversation.LastMessageID'] =
                      "update :_UserConversation uc
                      set LastMessageID = (
                        select max(MessageID)
@@ -1530,7 +1530,7 @@ class ImportModel extends Gdn_Model {
                } else {
                   // Get the value from the conversation.
                   // In this case just mark all of the messages read.
-                  $Sqls['UserConversation.LastMessageID'] = 
+                  $Sqls['UserConversation.LastMessageID'] =
                      "update :_UserConversation uc
                      join :_Conversation c
                        on c.ConversationID = uc.ConversationID
