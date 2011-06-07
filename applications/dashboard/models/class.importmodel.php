@@ -617,7 +617,7 @@ class ImportModel extends Gdn_Model {
       return TRUE;
    }
 
-	public function InsertTables() {
+	public function xInsertTables() {
 		$InsertedCount = 0;
 		$Timer = new Gdn_Timer();
 		$Timer->Start();
