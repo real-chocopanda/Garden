@@ -426,6 +426,8 @@ class CategoryModel extends Gdn_Model {
             ->Select('uc.DateMarkedRead')
             ->Select('uc.Unfollow');
       }
+      
+      $this->FireEvent('BeforeGetFullQuery');
 
       // Single record or full list?
       if (is_numeric($CategoryID) && $CategoryID > 0) {
