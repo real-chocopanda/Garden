@@ -484,6 +484,8 @@ class DiscussionModel extends VanillaModel {
             ->Where($Wheres);
       }
       
+      $this->FireEvent('BeforeGetCountQuery');
+      
       return $this->SQL
          ->Get()
          ->FirstRow()
