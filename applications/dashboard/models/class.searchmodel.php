@@ -106,6 +106,7 @@ class SearchModel extends Gdn_Model {
 		$Sql = str_replace($this->Database->DatabasePrefix.'_TBL_', "(\n".implode("\nunion all\n", $this->_SearchSql)."\n)", $Sql);
 		
 		$this->EventArguments['Search'] = $Search;
+		$this->EventArguments['Sql'] = &$Sql;
 		$this->FireEvent('AfterBuildSearchQuery');
 
       if ($this->_SearchMode == 'like')

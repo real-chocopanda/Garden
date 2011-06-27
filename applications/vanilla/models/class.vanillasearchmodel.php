@@ -73,6 +73,8 @@ class VanillaSearchModel extends Gdn_Model {
 			->From('Discussion d')
 			->Join('User u', 'd.InsertUserID = u.UserID', 'left');
 		
+		$this->FireEvent('BeforeDiscussionSqlQuery');
+			
 		// Execute query
 		$Result = $this->SQL->GetSelect();
 		
@@ -110,6 +112,8 @@ class VanillaSearchModel extends Gdn_Model {
 			->From('Comment c')
 			->Join('Discussion d', 'd.DiscussionID = c.DiscussionID')
 			->Join('User u', 'u.UserID = c.InsertUserID', 'left');
+		
+		$this->FireEvent('BeforeCommentSqlQuery');
 		
 		// Exectute query
 		$Result = $this->SQL->GetSelect();
