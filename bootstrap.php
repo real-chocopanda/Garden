@@ -7,11 +7,12 @@ if (!defined('PATH_LOCAL_ROOT')) define('PATH_LOCAL_ROOT', PATH_ROOT);
 
 // Define core constants.
 if(!defined('PATH_CONF')) define('PATH_CONF', PATH_ROOT.'/conf');
+if(!defined('PATH_DEFINITIONS')) define('PATH_DEFINITIONS', PATH_ROOT.'/definitions');
 if(!defined('PATH_LOCAL_CONF')) define('PATH_LOCAL_CONF', PATH_CONF);
 
 // Include default constants if none were defined elsewhere
 if (!defined('VANILLA_CONSTANTS'))
-   include(PATH_CONF.'/constants.php');
+   include(PATH_DEFINITIONS.'/constants.php');
    
 if (!defined('PATH_APPLICATIONS')) define('PATH_APPLICATIONS', PATH_ROOT.'/applications');
 if (!defined('PATH_LOCAL_APPLICATIONS')) define('PATH_LOCAL_APPLICATIONS', PATH_APPLICATIONS);
@@ -50,7 +51,7 @@ Gdn::FactoryInstall(Gdn::AliasCache, 'Gdn_Cache', NULL, Gdn::FactoryRealSingleto
 Gdn::FactoryInstall(Gdn::AliasConfig, 'Gdn_Configuration');
 
 // Configuration Defaults.
-Gdn::Config()->Load(PATH_CONF.'/config-defaults.php', 'Use');
+Gdn::Config()->Load(PATH_DEFINITIONS.'/config-defaults.php', 'Use');
 
 // Load installation-specific static configuration so that we know what apps are enabled.
 Gdn::Config()->Load(PATH_CONF.'/config.php', 'Use');
