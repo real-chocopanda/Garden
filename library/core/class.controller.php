@@ -435,6 +435,8 @@ class Gdn_Controller extends Gdn_Pluggable {
     * @todo $AssetTarget need the correct variable type and description.
     */
    public function AddModule($Module, $AssetTarget = '') {
+      $this->EventArguments['Module'] = &$Module;
+      $this->EventArguments['AssetTarget'] = &$AssetTarget;
       $this->FireEvent('BeforeAddModule');
 
       if (!is_object($Module)) {
