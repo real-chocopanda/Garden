@@ -582,6 +582,9 @@ class DiscussionModel extends VanillaModel {
       
       if (C('Vanilla.Views.Denormalize', FALSE))
          $this->AddDenormalizedViews($Data);
+
+      $this->EventArguments['Data'] = $Data;
+      $this->FireEvent('AfterGetID');
 		
 		return $Data;
    }

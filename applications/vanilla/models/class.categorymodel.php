@@ -464,6 +464,10 @@ class CategoryModel extends Gdn_Model {
       $CategoryIDs = DiscussionModel::CategoryPermissions();
       if (is_array($CategoryIDs) && !in_array(GetValue('CategoryID', $Data), $CategoryIDs))
          $Data = FALSE;
+
+      $this->EventArguments['Data'] = $Data;
+      $this->FireEvent('AfterGetFullByUrlCode');
+
       return $Data;
    }
    
